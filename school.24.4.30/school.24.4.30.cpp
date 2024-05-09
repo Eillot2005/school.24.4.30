@@ -44,19 +44,43 @@
 
 
 
-#include<iostream>
-using namespace std;
-int f[10000009];
-int main()
-{
-	int i, n;
-	f[1] = 0;
-	f[2] = 0; f[3] = 1;
-	for (i = 4; i <= 10000009; i++)
-		f[i] = f[i / 2] + f[i - i / 2];
-	while (cin>>n)
-	{
-		cout << f[n] << endl;
+#include <iostream>
+
+class DFSCounter {
+private:
+	int num;
+
+public:
+	DFSCounter() : num(0) {}
+
+	void DFS(int n) {
+		if (n == 3) {
+			num++;
+			return;
+		}
+		if (n < 3) return;
+		if (n % 2 == 0) {
+			DFS(n / 2);
+			DFS(n / 2);
+		}
+		else {
+			DFS(n / 2);
+			DFS(n / 2 + 1);
+		}
+	}
+
+	int countDFS(int n) {
+		num = 0;
+		DFS(n);
+		return num;
+	}
+};
+
+int main() {
+	int n;
+	DFSCounter counter;
+	while (std::cin >> n) {
+		std::cout << counter.countDFS(n) << std::endl;
 	}
 	return 0;
 }
